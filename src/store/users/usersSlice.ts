@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type UserId = string
 
-interface User {
+export interface User {
   name: string
   email: string
   github: string
@@ -46,7 +46,11 @@ export const usersSlice = createSlice({
       const id = action.payload
       return state.filter((user) => user.id !== id)
     },
+    addUser: (state, action: PayloadAction<User>) => {
+      const id = crypto.randomUUID()
+      return [...state, { id, ...action.payload }]
+    },
   },
 })
 
-export const { deleteUserById } = usersSlice.actions
+export const { deleteUserById, addUser } = usersSlice.actions

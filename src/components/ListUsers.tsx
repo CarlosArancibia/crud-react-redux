@@ -1,17 +1,14 @@
-import { useDispatchApp, useSelectorApp } from '../hooks/store'
-import { deleteUserById, UserId } from '../store/users/usersSlice'
+import { useSelectorApp } from '../hooks/store'
+import { useUserActions } from '../hooks/useUserActions'
 
 export const ListUsers = () => {
   const users = useSelectorApp((state) => state.users)
-  const dispatch = useDispatchApp()
 
-  const onDeleteUserById = (id: UserId) => {
-    dispatch(deleteUserById(id))
-  }
+  const { onDeleteUser } = useUserActions()
 
   return (
     <>
-      <div className='flex-auto block py-8 pt-6 px-9 m-auto max-w-[900px]  shadow-md mt-10 rounded-xl'>
+      <div className='flex-auto py-8 pt-6 px-9 shadow-md rounded-xl'>
         <div className='overflow-x-auto'>
           <div className='flex text-gray-500 items-center'>
             <h2 className='font-bold text-lg'>Users</h2>
@@ -60,7 +57,7 @@ export const ListUsers = () => {
                         />
                       </svg>
                     </button>
-                    <button className='cursor-pointer' onClick={() => onDeleteUserById(id)}>
+                    <button className='cursor-pointer' onClick={() => onDeleteUser(id)}>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         fill='none'
