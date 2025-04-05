@@ -28,8 +28,8 @@ export const ListUsers = () => {
             <tbody>
               {users.map(({ id, name, email, github }) => (
                 <tr key={id} className='border-b border-gray-300 last:border-b-0'>
-                  <td className='p-3 pl-0'>
-                    <div className='flex items-center'>{id}</div>
+                  <td className='p-3 pl-0 pr-10 overflow-hidden text-ellipsis whitespace-nowrap max-w-[100px]'>
+                    {id}
                   </td>
                   <td className='p-3 pl-0 text-start flex items-center'>
                     <img

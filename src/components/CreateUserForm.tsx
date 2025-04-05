@@ -45,7 +45,7 @@ export const CreateUserForm = ({ isOpen, onCloseModal }: Props) => {
           placeholder='Enter the github'
           className='border w-full p-2 rounded-lg'
         />
-        <button className='bg-green-700 rounded-lg p-2 text-white font-semibold mt-2 cursor-pointer'>
+        <button className='bg-blue-500 rounded-lg p-2 text-white font-semibold mt-2 cursor-pointer'>
           Save
         </button>
       </form>
