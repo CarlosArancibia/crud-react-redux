@@ -1,4 +1,12 @@
-import { addUser, deleteUserById, User, UserId } from '../store/users/usersSlice'
+import {
+  addUser,
+  deleteUserById,
+  setActiveUser,
+  updateUser,
+  User,
+  UserId,
+  UserWithId,
+} from '../store/users/usersSlice'
 import { useDispatchApp } from './store'
 
 export const useUserActions = () => {
@@ -12,8 +20,18 @@ export const useUserActions = () => {
     dispatch(addUser({ name, email, github }))
   }
 
+  const onUpdateUser = (user: UserWithId) => {
+    dispatch(updateUser(user))
+  }
+
+  const onSetActiveUser = (user: UserWithId | null) => {
+    dispatch(setActiveUser(user))
+  }
+
   return {
     onDeleteUser,
     onAddUser,
+    onUpdateUser,
+    onSetActiveUser,
   }
 }

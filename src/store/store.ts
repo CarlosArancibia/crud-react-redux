@@ -1,5 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import { usersSlice } from './users/usersSlice'
+import { uiSlice } from './ui/uiSlice'
 
 const persistanceLocalStorageMiddleware: Middleware = (store) => (next) => (action) => {
   next(action)
@@ -10,6 +11,7 @@ const persistanceLocalStorageMiddleware: Middleware = (store) => (next) => (acti
 export const store = configureStore({
   reducer: {
     users: usersSlice.reducer,
+    ui: uiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(persistanceLocalStorageMiddleware)

@@ -8,8 +8,13 @@ export interface User {
   github: string
 }
 
-interface UserWithId extends User {
+export interface UserWithId extends User {
   id: string
+}
+
+interface UsersState {
+  users: UserWithId[]
+  activeUser: UserWithId | null
 }
 
 const DEFAULT_STATE: UserWithId[] = [
@@ -33,10 +38,15 @@ const DEFAULT_STATE: UserWithId[] = [
   },
 ]
 
-const initialState: UserWithId[] = (() => {
+const users: UserWithId[] = (() => {
   const persistedState = localStorage.getItem('__redux__state__')
-  return persistedState ? JSON.parse(persistedState).users : DEFAULT_STATE
+  return persistedState ? JSON.parse(persistedState).users.users : DEFAULT_STATE
 })()
+
+const initialState: UsersState = {
+  users,
+  activeUser: null,
+}
 
 export const usersSlice = createSlice({
   name: 'users',
@@ -44,13 +54,22 @@ export const usersSlice = createSlice({
   reducers: {
     deleteUserById: (state, action: PayloadAction<UserId>) => {
       const id = action.payload
-      return state.filter((user) => user.id !== id)
+      state.users = state.users.filter((user) => user.id !== id)
     },
     addUser: (state, action: PayloadAction<User>) => {
       const id = crypto.randomUUID()
-      return [...state, { id, ...action.payload }]
+      state.users.push({ id, ...action.payload })
+    },
+    setActiveUser: (state, action) => {
+      state.activeUser = action.payload
+    },
+    updateUser: (state, action: PayloadAction<UserWithId>) => {
+      const { id, ...dataToUpdate } = action.payload
+      state.users = state.users.map((user) => {
+        return user.id === id ? { ...user, ...dataToUpdate } : user
+      })
     },
   },
 })
 
-export const { deleteUserById, addUser } = usersSlice.actions
+export const { deleteUserById, addUser, setActiveUser, updateUser } = usersSlice.actions

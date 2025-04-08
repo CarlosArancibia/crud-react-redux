@@ -1,10 +1,18 @@
 import { useSelectorApp } from '../hooks/store'
+import { useUiActions } from '../hooks/useUiActions'
 import { useUserActions } from '../hooks/useUserActions'
+import { UserWithId } from '../store/users/usersSlice'
 
 export const ListUsers = () => {
-  const users = useSelectorApp((state) => state.users)
+  const { users } = useSelectorApp((state) => state.users)
 
-  const { onDeleteUser } = useUserActions()
+  const { onDeleteUser, onSetActiveUser } = useUserActions()
+  const { onOpenModal } = useUiActions()
+
+  const onEditUser = (user: UserWithId) => {
+    onSetActiveUser(user)
+    onOpenModal()
+  }
 
   return (
     <>
@@ -26,22 +34,22 @@ export const ListUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map(({ id, name, email, github }) => (
-                <tr key={id} className='border-b border-gray-300 last:border-b-0'>
+              {users.map((user) => (
+                <tr key={user.id} className='border-b border-gray-300 last:border-b-0'>
                   <td className='p-3 pl-0 pr-10 overflow-hidden text-ellipsis whitespace-nowrap max-w-[100px]'>
-                    {id}
+                    {user.id}
                   </td>
                   <td className='p-3 pl-0 text-start flex items-center'>
                     <img
-                      src={`https://unavatar.io/github/${github}`}
+                      src={`https://unavatar.io/github/${user.github}`}
                       className='rounded-full w-8'
                       alt='avatar github'
                     />
-                    <span className=' text-md/normal ml-3'>{name}</span>
+                    <span className=' text-md/normal ml-3'>{user.name}</span>
                   </td>
-                  <td className='p-3 pl-0 text-start '>{email}</td>
+                  <td className='p-3 pl-0 text-start '>{user.email}</td>
                   <td className='p-3 pr-12 text-end'>
-                    <button className='cursor-pointer'>
+                    <button className='cursor-pointer' onClick={() => onEditUser(user)}>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         fill='none'
@@ -57,7 +65,7 @@ export const ListUsers = () => {
                         />
                       </svg>
                     </button>
-                    <button className='cursor-pointer' onClick={() => onDeleteUser(id)}>
+                    <button className='cursor-pointer' onClick={() => onDeleteUser(user.id)}>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         fill='none'

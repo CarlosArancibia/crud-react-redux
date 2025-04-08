@@ -1,8 +1,8 @@
-type Props = {
-  onOpenModal: () => void
-}
+import { useUiActions } from '../hooks/useUiActions'
 
-export const AddUserButton = ({ onOpenModal }: Props) => {
+export const AddUserButton = () => {
+  const { onOpenModal } = useUiActions()
+
   return (
     <button
       className='absolute bottom-16 right-0 bg-gray-400 rounded-full p-3 cursor-pointer'
